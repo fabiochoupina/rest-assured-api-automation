@@ -29,7 +29,6 @@ class UserTests: BaseTest() {
     fun testCreateUser() {
         val user = User("Fabio", "Test Engineer")
         given().
-            contentType(ContentType.JSON).
             body(user).
         `when`().
             post("/users").

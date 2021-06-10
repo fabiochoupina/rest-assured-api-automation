@@ -13,7 +13,6 @@ class RegisterTests: BaseTest() {
     fun testRegisterWhenPasswordIsMissing() {
         val user = User( email = "sydney@fife")
         given().
-            contentType(ContentType.JSON).
             body(user).
         `when`().
             post("/register").
