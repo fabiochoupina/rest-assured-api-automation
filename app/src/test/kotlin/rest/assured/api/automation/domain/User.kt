@@ -1,4 +1,5 @@
 package rest.assured.api.automation.domain
 
-class User(val name: String,
-           val job: String)
+data class User(val name: String? = null,
+                val job: String? = null,
+                val email: String? = null)
