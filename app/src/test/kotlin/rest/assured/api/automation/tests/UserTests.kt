@@ -5,7 +5,6 @@ package rest.assured.api.automation.tests
 
 import io.restassured.RestAssured.*
 import kotlin.test.Test
-import io.restassured.http.ContentType
 import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -13,12 +12,17 @@ import rest.assured.api.automation.domain.User
 
 class UserTests: BaseTest() {
 
+    companion object {
+        private const val USERS_LIST_ENDPOINT: String = "/users"
+        private const val CREATE_USER_ENDPOINT: String = "/user"
+    }
+
     @Test
     fun testListUserMetadata() {
         given().
             params("page", "2").
         `when`().
-                get("/users").
+                get(USERS_LIST_ENDPOINT).
          then().
                 statusCode(HttpStatus.SC_OK).
                 body("page", `is`(2)).
@@ -31,7 +35,7 @@ class UserTests: BaseTest() {
         given().
             body(user).
         `when`().
-            post("/users").
+            post(CREATE_USER_ENDPOINT).
         then().
             statusCode(HttpStatus.SC_CREATED).
             body("name", `is`("Fabio"))
