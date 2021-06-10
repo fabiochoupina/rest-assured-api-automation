@@ -5,6 +5,8 @@ package rest.assured.api.automation
 
 import kotlin.test.Test
 import io.restassured.RestAssured.`when`
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -19,5 +21,17 @@ class AppTest {
                 statusCode(HttpStatus.SC_OK).
                 body("page", `is`(2)).
                 body("data", `is`(notNullValue()))
+    }
+
+    @Test
+    fun testCreateUser() {
+        given().log().all().
+            contentType(ContentType.JSON).
+            body("{\"name\": \"Fabio\", \"job\": \"Test Engineer\"}").
+        `when`().
+            post("https://reqres.in/api/users").
+        then().
+            statusCode(HttpStatus.SC_CREATED).
+            body("name", `is`("Fabio"))
     }
 }
