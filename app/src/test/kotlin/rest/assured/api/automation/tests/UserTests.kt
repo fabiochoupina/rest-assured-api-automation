@@ -3,7 +3,6 @@
  */
 package rest.assured.api.automation.tests
 
-import io.restassured.RestAssured
 import io.restassured.RestAssured.*
 import kotlin.test.Test
 import io.restassured.http.ContentType
@@ -11,16 +10,8 @@ import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
 import rest.assured.api.automation.domain.User
-import kotlin.test.BeforeTest
 
-class UserTests {
-
-    @BeforeTest
-    fun setup() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
-        baseURI = "https://reqres.in"
-        basePath = "/api"
-    }
+class UserTests: BaseTest() {
 
     @Test
     fun testListUserMetadata() {
