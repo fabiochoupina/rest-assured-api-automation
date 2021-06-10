@@ -3,6 +3,7 @@
  */
 package rest.assured.api.automation
 
+import io.restassured.RestAssured
 import kotlin.test.Test
 import io.restassured.RestAssured.`when`
 import io.restassured.RestAssured.given
@@ -10,8 +11,14 @@ import io.restassured.http.ContentType
 import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
+import kotlin.test.BeforeTest
 
 class AppTest {
+
+    @BeforeTest
+    fun setup() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
+    }
 
     @Test
     fun testListUserMetadata() {
@@ -25,7 +32,7 @@ class AppTest {
 
     @Test
     fun testCreateUser() {
-        given().log().all().
+        given().
             contentType(ContentType.JSON).
             body("{\"name\": \"Fabio\", \"job\": \"Test Engineer\"}").
         `when`().
