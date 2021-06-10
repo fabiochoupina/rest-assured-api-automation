@@ -34,4 +34,7 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+
+    // Use rest-assured
+    testImplementation 'io.rest-assured:rest-assured:4.4.0'
 }

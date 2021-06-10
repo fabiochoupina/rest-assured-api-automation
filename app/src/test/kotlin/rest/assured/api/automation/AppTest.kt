@@ -4,9 +4,20 @@
 package rest.assured.api.automation
 
 import kotlin.test.Test
-import kotlin.test.assertNotNull
+import io.restassured.RestAssured.`when`
+import org.apache.http.HttpStatus
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 
 class AppTest {
-    @Test fun testAppHasAGreeting() {
+
+    @Test
+    fun testListUserMetadata() {
+        `when`().
+                get("https://reqres.in/api/users?page=2").
+         then().
+                statusCode(HttpStatus.SC_OK).
+                body("page", `is`(2)).
+                body("data", `is`(notNullValue()))
     }
 }
