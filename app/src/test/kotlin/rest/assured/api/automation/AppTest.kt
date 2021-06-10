@@ -4,9 +4,8 @@
 package rest.assured.api.automation
 
 import io.restassured.RestAssured
+import io.restassured.RestAssured.*
 import kotlin.test.Test
-import io.restassured.RestAssured.`when`
-import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.apache.http.HttpStatus
 import org.hamcrest.CoreMatchers.`is`
@@ -18,12 +17,16 @@ class AppTest {
     @BeforeTest
     fun setup() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
+        baseURI = "https://reqres.in"
+        basePath = "/api"
     }
 
     @Test
     fun testListUserMetadata() {
+        given().
+            params("page", "2").
         `when`().
-                get("https://reqres.in/api/users?page=2").
+                get("/users").
          then().
                 statusCode(HttpStatus.SC_OK).
                 body("page", `is`(2)).
@@ -36,7 +39,7 @@ class AppTest {
             contentType(ContentType.JSON).
             body("{\"name\": \"Fabio\", \"job\": \"Test Engineer\"}").
         `when`().
-            post("https://reqres.in/api/users").
+            post("/users").
         then().
             statusCode(HttpStatus.SC_CREATED).
             body("name", `is`("Fabio"))
