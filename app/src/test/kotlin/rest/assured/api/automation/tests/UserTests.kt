@@ -40,4 +40,19 @@ class UserTests: BaseTest() {
             statusCode(HttpStatus.SC_CREATED).
             body("name", `is`("Fabio"))
     }
+
+    @Test
+    fun testCheckShownItemsAreTheSameAsItemsPerPage() {
+        given().
+            params("page", "2").
+        `when`().
+            get(USERS_LIST_ENDPOINT).
+        then().
+            statusCode(HttpStatus.SC_OK).
+            body(
+                    "page", `is`(2),
+                    "data.size()", `is`(6),
+                    "data.findAll { it.avatar.startsWith('https://reqres.in/img/faces') }.size()", `is`(6)
+            )
+    }
 }
