@@ -43,16 +43,32 @@ class UserTests: BaseTest() {
 
     @Test
     fun testCheckShownItemsAreTheSameAsItemsPerPage() {
+
+        val expectedPage = 2
+        val perPageExpected: Int = returnPerPageExpected()
+
         given().
-            params("page", "2").
+            params("page", expectedPage).
         `when`().
             get(USERS_LIST_ENDPOINT).
         then().
             statusCode(HttpStatus.SC_OK).
             body(
-                    "page", `is`(2),
-                    "data.size()", `is`(6),
+                    "page", `is`(expectedPage),
+                    "data.size()", `is`(perPageExpected),
                     "data.findAll { it.avatar.startsWith('https://reqres.in/img/faces') }.size()", `is`(6)
             )
+    }
+
+    private fun returnPerPageExpected(): Int {
+        val perPageExpected: Int = given().
+                                        param("page", 2).
+            `when`().
+                get(USERS_LIST_ENDPOINT).
+            then().
+                statusCode(HttpStatus.SC_OK).
+            extract().
+                path("per_page")
+        return perPageExpected
     }
 }
