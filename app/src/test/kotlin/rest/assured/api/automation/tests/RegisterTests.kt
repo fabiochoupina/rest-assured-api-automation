@@ -25,7 +25,9 @@ class RegisterTests: BaseTest() {
 
     @Test
     fun testRegisterWhenPasswordIsMissing() {
-        val user = User( email = "sydney@fife")
+        val user:HashMap<String,String> = HashMap<String,String>()
+        user.put("email", "sydney@fife")
+
         given().
             body(user).
         `when`().
@@ -37,7 +39,9 @@ class RegisterTests: BaseTest() {
     // This test should be in LoginTests, but it's here to show the multiple setup and response spec
     @Test
     fun testLoginFailed() {
-        val user = User( email = "sydney@fife")
+        val user:HashMap<String,String> = HashMap<String,String>()
+        user.put("email", "sydney@fife")
+
             given().
                 body(user).
             `when`().
