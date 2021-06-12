@@ -6,8 +6,9 @@ package rest.assured.api.automation.tests
 import io.restassured.RestAssured.*
 import kotlin.test.Test
 import org.apache.http.HttpStatus
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
+import org.hamcrest.MatcherAssert.assertThat
 import rest.assured.api.automation.domain.User
 
 class UserTests: BaseTest() {
@@ -15,6 +16,7 @@ class UserTests: BaseTest() {
     companion object {
         private const val USERS_LIST_ENDPOINT: String = "/users"
         private const val CREATE_USER_ENDPOINT: String = "/user"
+        private const val SHOW_USER_ENDPOINT: String = "/users/{userId}"
     }
 
     @Test
@@ -58,6 +60,22 @@ class UserTests: BaseTest() {
                     "data.size()", `is`(perPageExpected),
                     "data.findAll { it.avatar.startsWith('https://reqres.in/img/faces') }.size()", `is`(6)
             )
+    }
+
+    @Test
+    fun testDisplaySpecificUser() {
+        val user = given().
+                    pathParam("userId", 2).
+            `when`().
+                get(SHOW_USER_ENDPOINT).
+            then().
+                statusCode(HttpStatus.SC_OK).
+            extract().
+                body().jsonPath().getObject("data", User::class.java)
+
+        assertThat(user.email, containsString("@reqres.in"))
+        assertThat(user.name, `is`("Janet"))
+        assertThat(user.lastName, `is`("Weaver"))
     }
 
     private fun returnPerPageExpected(): Int {

@@ -34,6 +34,7 @@ class RegisterTests: BaseTest() {
             body("error", `is`("Missing password"))
     }
 
+    // This test should be in LoginTests, but it's here to show the multiple setup and response spec
     @Test
     fun testLoginFailed() {
         val user = User( email = "sydney@fife")
