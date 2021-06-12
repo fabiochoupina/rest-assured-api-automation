@@ -33,7 +33,10 @@ class UserTests: BaseTest() {
 
     @Test
     fun testCreateUser() {
-        val user = User("Fabio", "Test Engineer")
+        val user:HashMap<String,String> = HashMap<String,String>()
+        user.put("name", "Fabio")
+        user.put("job", "Test Engineer")
+
         given().
             body(user).
         `when`().
